@@ -75,7 +75,7 @@ impl Grid {
 fn create_grid(mut commands: Commands) {
     let mut rng = rand::thread_rng();
 
-    let mut grid = Grid::new(16, 16);
+    let mut grid = Grid::new(32, 32);
     let current_cell = (0, 0);
 
     grid.grid[current_cell.0][current_cell.1].visited = true;
@@ -130,33 +130,43 @@ fn display_grid(
     });
 
     for (row_i, row) in grid.grid.iter().enumerate() {
+        let room_size = 2.0;
+        let wall_width = 0.1;
+        let wall_height = 3.0;
+        let wall_depth = room_size + wall_width * 2.0;
+
         // Room
         // for (col_i, cell) in row.iter().enumerate() {
         //     commands.spawn(PbrBundle {
-        //         mesh: meshes.add(Mesh::from(shape::Cube { size: 1.0 })),
+        //         mesh: meshes.add(Mesh::from(shape::Cube { size: room_size })),
         //         material: materials.add(if cell.visited {
         //             Color::rgb(1.0, 1.0, 1.0).into()
         //         } else {
         //             Color::rgb(0.0, 0.0, 0.0).into()
         //         }),
         //         transform: Transform::from_xyz(
-        //             row_i as f32 * 1.1 + 0.5,
+        //             row_i as f32 * (room_size + wall_width) + room_size / 2.0,
         //             0.0,
-        //             col_i as f32 * 1.1 + 0.5,
+        //             col_i as f32 * (room_size + wall_width) + room_size / 2.0,
         //         ),
         //         ..default()
         //     });
         // }
+
         // North
         for (col_i, cell) in row.iter().enumerate() {
             if cell.walls[Walls::North as usize] {
                 commands.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(shape::Box::new(0.1, 1.1, 1.0))),
+                    mesh: meshes.add(Mesh::from(shape::Box::new(
+                        wall_width,
+                        wall_height,
+                        wall_depth,
+                    ))),
                     material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
                     transform: Transform::from_xyz(
-                        row_i as f32 * 1.1 + 1.05,
+                        row_i as f32 * (room_size + wall_width) + room_size + wall_width / 2.0,
                         0.0,
-                        col_i as f32 * 1.1 + 0.5,
+                        col_i as f32 * (room_size + wall_width) + (room_size / 2.0),
                     ),
                     ..default()
                 });
@@ -166,12 +176,16 @@ fn display_grid(
         for (col_i, cell) in row.iter().enumerate() {
             if cell.walls[Walls::South as usize] {
                 commands.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(shape::Box::new(0.1, 1.1, 1.0))),
+                    mesh: meshes.add(Mesh::from(shape::Box::new(
+                        wall_width,
+                        wall_height,
+                        wall_depth,
+                    ))),
                     material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
                     transform: Transform::from_xyz(
-                        row_i as f32 * 1.1 - 0.05,
+                        row_i as f32 * (room_size + wall_width) - wall_width / 2.0,
                         0.0,
-                        col_i as f32 * 1.1 + 0.5,
+                        col_i as f32 * (room_size + wall_width) + (room_size / 2.0),
                     ),
                     ..default()
                 });
@@ -181,12 +195,16 @@ fn display_grid(
         for (col_i, cell) in row.iter().enumerate() {
             if cell.walls[Walls::West as usize] {
                 commands.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(shape::Box::new(1.0, 1.1, 0.1))),
+                    mesh: meshes.add(Mesh::from(shape::Box::new(
+                        wall_depth,
+                        wall_height,
+                        wall_width,
+                    ))),
                     material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
                     transform: Transform::from_xyz(
-                        row_i as f32 * 1.1 + 0.5,
+                        row_i as f32 * (room_size + wall_width) + (room_size / 2.0),
                         0.0,
-                        col_i as f32 * 1.1 - 0.05,
+                        col_i as f32 * (room_size + wall_width) - wall_width / 2.0,
                     ),
                     ..default()
                 });
@@ -196,12 +214,16 @@ fn display_grid(
         for (col_i, cell) in row.iter().enumerate() {
             if cell.walls[Walls::East as usize] {
                 commands.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(shape::Box::new(1.0, 1.1, 0.1))),
+                    mesh: meshes.add(Mesh::from(shape::Box::new(
+                        wall_depth,
+                        wall_height,
+                        wall_width,
+                    ))),
                     material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
                     transform: Transform::from_xyz(
-                        row_i as f32 * 1.1 + 0.5,
+                        row_i as f32 * (room_size + wall_width) + (room_size / 2.0),
                         0.0,
-                        col_i as f32 * 1.1 + 1.05,
+                        col_i as f32 * (room_size + wall_width) + room_size + wall_width / 2.0,
                     ),
                     ..default()
                 });
