@@ -1,5 +1,5 @@
 (undo-tree-save-format-version . 1)
-"305ec5dd1574b5187d7b859e0e72d54e1de26d58"
+"605e30bd7798d5a8cfaf6d51c1c3ba08977b72ea"
 [nil nil nil nil (25817 7956 982066 71000) 0 nil]
 ([nil nil ((nil rear-nonsticky nil 1 . 2) (#("
 " 0 1 (fontified nil)) . -89) (1 . 90) (t 25817 7668 182711 931000)) nil (25817 7956 982064 799000) 0 nil])
@@ -57,5 +57,6 @@ use bevy::" 0 7 (fontified t face font-lock-constant-face) 7 11 (fontified t) 11
 ([nil nil ((#("Confined" 0 2 (fontified t face font-lock-type-face) 2 4 (fontified t face font-lock-type-face) 4 8 (fontified t face font-lock-type-face)) . 2461) (undo-tree-id442 . -1) (undo-tree-id443 . -7) (undo-tree-id444 . -1) (undo-tree-id445 . -1) (undo-tree-id446 . -1) (undo-tree-id447 . -1) (undo-tree-id448 . -1) (undo-tree-id449 . -1) (undo-tree-id450 . -1) (undo-tree-id451 . -8) (undo-tree-id452 . -8) (t 25817 14370 92811 204000)) nil (25817 15628 891380 962000) 0 nil])
 ([nil nil ((2461 . 2468)) nil (25817 15628 891373 528000) 0 nil])
 ([nil nil ((#("e" 0 1 (fontified t face font-lock-type-face)) . -2465) (undo-tree-id430 . -1) (undo-tree-id431 . -1) (undo-tree-id432 . -1) (undo-tree-id433 . -1) (#("u" 0 1 (fontified t face font-lock-type-face)) . -2466) (undo-tree-id434 . -1) (undo-tree-id435 . -1) (undo-tree-id436 . -1) (undo-tree-id437 . -1) (#("d" 0 1 (fontified t face font-lock-type-face)) . -2467) (undo-tree-id438 . -1) (undo-tree-id439 . -1) (undo-tree-id440 . -1) (undo-tree-id441 . -1) 2468) nil (25817 15628 891370 933000) 0 nil])
-([nil current ((2465 . 2467)) nil (25817 15628 891349 463000) 0 nil])
+([nil nil ((2465 . 2467)) nil (25817 15628 891349 463000) 0 nil])
+([nil current ((315 . 316) (#("ZERO" 0 4 (face font-lock-type-face fontified t)) . 315) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (undo-tree-id2 . -1) (undo-tree-id3 . -1) (undo-tree-id4 . -1) (undo-tree-id5 . -1) (undo-tree-id6 . -1) (undo-tree-id7 . -1) (undo-tree-id8 . -4) (undo-tree-id9 . -4) (undo-tree-id10 . -3) (t 25817 58140 167723 64000)) nil (25817 59742 240349 626000) 0 nil])
 nil
