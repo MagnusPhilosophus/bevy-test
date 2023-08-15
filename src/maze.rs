@@ -107,27 +107,6 @@ fn display_grid(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let grid = grid.single();
-    // X
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Mesh::from(shape::Cube { size: 0.5 })),
-        material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
-        transform: Transform::from_xyz(10.0, 0.0, 0.0),
-        ..default()
-    });
-    // Y
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Mesh::from(shape::Cube { size: 0.5 })),
-        material: materials.add(Color::rgb(0.0, 1.0, 0.0).into()),
-        transform: Transform::from_xyz(0.0, 10.0, 0.0),
-        ..default()
-    });
-    // Z
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Mesh::from(shape::Cube { size: 0.5 })),
-        material: materials.add(Color::rgb(0.0, 0.0, 1.0).into()),
-        transform: Transform::from_xyz(0.0, 0.0, 10.0),
-        ..default()
-    });
 
     for (row_i, row) in grid.grid.iter().enumerate() {
         let room_size = 2.0;

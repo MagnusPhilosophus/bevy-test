@@ -2,6 +2,7 @@ use bevy::app::AppExit;
 use bevy::prelude::*;
 use bevy_rapier3d::prelude::*;
 mod camera;
+use camera::FlyCamera;
 use camera::FlyCameraPlugin;
 mod maze;
 use maze::MazePlugin;
@@ -21,13 +22,22 @@ fn setup_physics(mut commands: Commands) {
     ));
 }
 
-fn spawn_on_t(mut commands: Commands, keys: Res<Input<KeyCode>>) {
+fn spawn_on_t(
+    mut commands: Commands,
+    keys: Res<Input<KeyCode>>,
+    position: Query<&Transform, With<FlyCamera>>,
+) {
     if keys.just_pressed(KeyCode::T) {
+        let position = position.single();
         commands.spawn((
             RigidBody::Dynamic,
             Collider::ball(0.5),
             Restitution::coefficient(0.7),
-            TransformBundle::from(Transform::from_xyz(0.0, 4.0, 0.0)),
+            TransformBundle::from_transform(position.clone()),
+            Velocity {
+                linvel: position.forward() * 50.0,
+                ..default()
+            },
         ));
     }
 }

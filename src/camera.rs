@@ -4,7 +4,7 @@ use bevy::window::{CursorGrabMode, PrimaryWindow};
 use std::f32::consts::PI;
 
 #[derive(Component)]
-struct FlyCamera;
+pub struct FlyCamera;
 
 fn setup_camera(mut commands: Commands) {
     commands.spawn((
