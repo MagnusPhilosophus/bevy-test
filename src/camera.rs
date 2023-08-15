@@ -1,6 +1,7 @@
 use bevy::input::mouse::MouseMotion;
 use bevy::prelude::*;
 use bevy::window::{CursorGrabMode, PrimaryWindow};
+use std::f32::consts::PI;
 
 #[derive(Component)]
 struct FlyCamera;
@@ -8,18 +9,31 @@ struct FlyCamera;
 fn setup_camera(mut commands: Commands) {
     commands.spawn((
         Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 0.0, 0.0).looking_at(Vec3::X, Vec3::Y),
+            transform: Transform::from_xyz(-5.0, 5.0, -5.0)
+                .looking_at(Vec3::new(0.0, -2.0, 0.0), Vec3::Y),
             ..default()
         },
         FlyCamera,
     ));
-    commands.spawn(PointLightBundle {
-        point_light: PointLight {
-            intensity: 1500.0,
+    // commands.spawn(PointLightBundle {
+    //     point_light: PointLight {
+    //         intensity: 1500.0,
+    //         shadows_enabled: true,
+    //         ..default()
+    //     },
+    //     transform: Transform::from_xyz(4.0, 8.0, 4.0),
+    //     ..default()
+    // });
+    commands.spawn(DirectionalLightBundle {
+        directional_light: DirectionalLight {
             shadows_enabled: true,
             ..default()
         },
-        transform: Transform::from_xyz(4.0, 8.0, 4.0),
+        transform: Transform {
+            translation: Vec3::new(0.0, 20.0, 0.0),
+            rotation: Quat::from_rotation_x(-PI / 4.0),
+            ..default()
+        },
         ..default()
     });
 }

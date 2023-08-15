@@ -1,0 +1,6 @@
+(undo-tree-save-format-version . 1)
+"cb40028918b3156efedb6dd9bd2d7ea39d59f442"
+[nil nil nil nil (25818 43619 296439 99000) 0 nil]
+([nil nil ((382 . 449) (t 25818 39389 749915 190000)) nil (25818 43619 296437 616000) 0 nil])
+([nil current ((462 . 464) (#("D" 0 1 (fontified t face font-lock-string-face)) . -462) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (#("\"" 0 1 (fontified t face font-lock-string-face)) . -463) (undo-tree-id2 . -1) (undo-tree-id3 . -1) 464 (445 . 464) (t 25818 39474 86583 6000)) nil (25818 43619 296433 949000) 0 nil])
+nil
