@@ -133,29 +133,6 @@ fn display_grid(
         //     });
         // }
 
-        // North
-        for (col_i, cell) in row.iter().enumerate() {
-            if cell.walls[Walls::North as usize] {
-                commands.spawn((
-                    PbrBundle {
-                        mesh: meshes.add(Mesh::from(shape::Box::new(
-                            wall_width,
-                            wall_height,
-                            wall_depth,
-                        ))),
-                        material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
-                        transform: Transform::from_xyz(
-                            row_i as f32 * (room_size + wall_width) + room_size + wall_width / 2.0,
-                            0.0,
-                            col_i as f32 * (room_size + wall_width) + (room_size / 2.0),
-                        ),
-                        ..default()
-                    },
-                    RigidBody::Fixed,
-                    Collider::cuboid(wall_width / 2.0, wall_height / 2.0, wall_depth / 2.0),
-                ));
-            }
-        }
         // South
         for (col_i, cell) in row.iter().enumerate() {
             if cell.walls[Walls::South as usize] {

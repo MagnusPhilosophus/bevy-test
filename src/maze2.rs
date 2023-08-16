@@ -60,7 +60,7 @@ impl Grid {
 fn create_grid(mut commands: Commands) {
     let mut rng = rand::thread_rng();
 
-    let mut grid = Grid::new(32, 32);
+    let mut grid = Grid::new(2, 2);
     let current_cell = (0, 0);
 
     grid.grid[current_cell.0][current_cell.1].visited = true;
@@ -85,9 +85,6 @@ fn create_grid(mut commands: Commands) {
                 _ => (),
             }
 
-            //grid.grid[current_cell.0][current_cell.1].walls[wall.0 as usize] = false;
-            //grid.grid[neighbor.0][neighbor.1].walls[wall.1 as usize] = false;
-
             grid.grid[neighbor.0][neighbor.1].visited = true;
             grid.stack.push(neighbor);
         }
@@ -103,13 +100,60 @@ fn display_grid(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let grid = grid.single();
+    let room_size = 1.0;
+    let wall_width = 0.1;
+    let wall_height = 1.5;
+    let wall_depth = room_size + wall_width * 2.0;
+
+    // South
+    commands.spawn((
+        PbrBundle {
+            mesh: meshes.add(Mesh::from(shape::Box::new(
+                wall_width,
+                wall_height,
+                (room_size + wall_width) * grid.width as f32 + wall_width,
+            ))),
+            material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
+            transform: Transform::from_xyz(
+                -wall_width / 2.0,
+                wall_height / 2.0,
+                (room_size + wall_width) * grid.width as f32 / 2.0 - wall_width / 2.0,
+            ),
+            ..default()
+        },
+        RigidBody::Fixed,
+        Collider::cuboid(
+            wall_width / 2.0,
+            wall_height / 2.0,
+            ((room_size + wall_width) * grid.width as f32 + wall_width) / 2.0,
+        ),
+    ));
+
+    // West
+    commands.spawn((
+        PbrBundle {
+            mesh: meshes.add(Mesh::from(shape::Box::new(
+                (room_size + wall_width) * grid.height as f32 + wall_width,
+                wall_height,
+                wall_width,
+            ))),
+            material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
+            transform: Transform::from_xyz(
+                (room_size + wall_width) * grid.height as f32 / 2.0 - wall_width / 2.0,
+                wall_height / 2.0,
+                -wall_width / 2.0,
+            ),
+            ..default()
+        },
+        RigidBody::Fixed,
+        Collider::cuboid(
+            ((room_size + wall_width) * grid.height as f32 + wall_width) / 2.0,
+            wall_height / 2.0,
+            wall_width / 2.0,
+        ),
+    ));
 
     for (row_i, row) in grid.grid.iter().enumerate() {
-        let room_size = 2.0;
-        let wall_width = 0.1;
-        let wall_height = 3.0;
-        let wall_depth = room_size + wall_width * 2.0;
-
         // Room
         // for (col_i, cell) in row.iter().enumerate() {
         //     commands.spawn(PbrBundle {
@@ -141,13 +185,13 @@ fn display_grid(
                         material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
                         transform: Transform::from_xyz(
                             row_i as f32 * (room_size + wall_width) + room_size + wall_width / 2.0,
-                            0.0,
+                            wall_height / 2.0,
                             col_i as f32 * (room_size + wall_width) + (room_size / 2.0),
                         ),
                         ..default()
                     },
-                    // RigidBody::Fixed,
-                    // Collider::cuboid(wall_width / 2.0, wall_height / 2.0, wall_depth / 2.0),
+                    RigidBody::Fixed,
+                    Collider::cuboid(wall_width / 2.0, wall_height / 2.0, wall_depth / 2.0),
                 ));
             }
         }
@@ -164,13 +208,13 @@ fn display_grid(
                         material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
                         transform: Transform::from_xyz(
                             row_i as f32 * (room_size + wall_width) + (room_size / 2.0),
-                            0.0,
+                            wall_height / 2.0,
                             col_i as f32 * (room_size + wall_width) + room_size + wall_width / 2.0,
                         ),
                         ..default()
                     },
-                    // RigidBody::Fixed,
-                    // Collider::cuboid(wall_depth / 2.0, wall_height / 2.0, wall_width / 2.0),
+                    RigidBody::Fixed,
+                    Collider::cuboid(wall_depth / 2.0, wall_height / 2.0, wall_width / 2.0),
                 ));
             }
         }

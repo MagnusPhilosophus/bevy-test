@@ -32,11 +32,11 @@ fn spawn_on_t(
         let position = position.single();
         commands.spawn((
             RigidBody::Dynamic,
-            Collider::ball(0.25),
+            Collider::ball(0.5),
             Restitution::coefficient(0.7),
             TransformBundle::from_transform(position.clone()),
             Velocity {
-                linvel: position.forward() * 10.0,
+                linvel: position.forward() * 1,,,,,,,,,,,,,,
                 ..default()
             },
         ));

@@ -9,8 +9,8 @@ pub struct FlyCamera;
 fn setup_camera(mut commands: Commands) {
     commands.spawn((
         Camera3dBundle {
-            transform: Transform::from_xyz(-5.0, 5.0, -5.0)
-                .looking_at(Vec3::new(0.0, -2.0, 0.0), Vec3::Y),
+            transform: Transform::from_xyz(-2.0, 2.0, -2.0)
+                .looking_at(Vec3::new(0.0, 0.0, 0.0), Vec3::Y),
             ..default()
         },
         FlyCamera,
@@ -58,6 +58,9 @@ fn camera_look(
     mut mouse_motion: EventReader<MouseMotion>,
 ) {
     let window = window.get_single().expect("Failed to find a window");
+    if window.cursor.grab_mode != CursorGrabMode::Locked {
+        return;
+    }
     let mut transform = transform
         .get_single_mut()
         .expect("Only one camera with FlyCamera");
