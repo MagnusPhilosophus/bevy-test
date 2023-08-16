@@ -4,8 +4,8 @@ use bevy_rapier3d::prelude::*;
 mod camera;
 use camera::FlyCamera;
 use camera::FlyCameraPlugin;
-mod maze;
-use maze::MazePlugin;
+mod maze2;
+use maze2::MazePlugin;
 mod scene;
 //use scene::ScenePlugin;
 
