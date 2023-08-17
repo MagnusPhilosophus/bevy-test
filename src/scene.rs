@@ -54,6 +54,12 @@ fn setup_scene(
         transform: Transform::from_xyz(0.0, 0.0, -2.0),
         ..default()
     });
+
+    commands.spawn(SceneBundle {
+        scene: asset_server.load("donut_temp.glb#Scene0"),
+        transform: Transform::from_xyz(0.0, 5.0, 2.0),
+        ..default()
+    });
 }
 
 fn rotate_cube(mut cube_transform: Query<&mut Transform, With<Turret>>, time: Res<Time>) {

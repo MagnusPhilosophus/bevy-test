@@ -7,8 +7,8 @@ use camera::FlyCameraPlugin;
 mod maze2;
 use maze2::MazePlugin;
 mod scene;
-//use scene::ScenePlugin;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use scene::ScenePlugin;
 
 fn exit_on_escape(mut exit: EventWriter<AppExit>, keys: Res<Input<KeyCode>>) {
     if keys.just_pressed(KeyCode::Escape) {
@@ -52,6 +52,7 @@ fn main() {
             MazePlugin,
             RapierPhysicsPlugin::<NoUserData>::default(),
             RapierDebugRenderPlugin::default(),
+            ScenePlugin,
         ))
         .add_systems(Startup, setup_physics)
         .add_systems(Update, (exit_on_escape, spawn_on_t))
