@@ -6,9 +6,9 @@ use camera::FlyCamera;
 use camera::FlyCameraPlugin;
 mod maze2;
 use maze2::MazePlugin;
-mod scene;
+//mod scene;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use scene::ScenePlugin;
+//use scene::ScenePlugin;
 
 fn exit_on_escape(mut exit: EventWriter<AppExit>, keys: Res<Input<KeyCode>>) {
     if keys.just_pressed(KeyCode::Escape) {
@@ -16,25 +16,32 @@ fn exit_on_escape(mut exit: EventWriter<AppExit>, keys: Res<Input<KeyCode>>) {
     }
 }
 
-fn setup_physics(mut commands: Commands) {
-    commands.spawn((
-        Collider::cuboid(50.0, 0.1, 50.0),
-        TransformBundle::from(Transform::from_xyz(0.0, -0.1, 0.0)),
-    ));
-}
-
 fn spawn_on_t(
     mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
     keys: Res<Input<KeyCode>>,
     position: Query<&Transform, With<FlyCamera>>,
 ) {
-    if keys.just_pressed(KeyCode::T) {
+    if keys.just_pressed(KeyCode::Semicolon) {
         let position = position.single();
         commands.spawn((
+            PbrBundle {
+                mesh: meshes.add(
+                    shape::Icosphere {
+                        radius: 0.25,
+                        ..default()
+                    }
+                    .try_into()
+                    .unwrap(),
+                ),
+                material: materials.add(Color::rgb(0.2, 0.5, 0.5).into()),
+                transform: position.clone(),
+                ..default()
+            },
             RigidBody::Dynamic,
             Collider::ball(0.25),
             Restitution::coefficient(0.7),
-            TransformBundle::from_transform(position.clone()),
             Velocity {
                 linvel: position.forward() * 10.0,
                 ..default()
@@ -51,10 +58,9 @@ fn main() {
             FlyCameraPlugin,
             MazePlugin,
             RapierPhysicsPlugin::<NoUserData>::default(),
-            RapierDebugRenderPlugin::default(),
-            ScenePlugin,
+            //RapierDebugRenderPlugin::default(),
+            //           ScenePlugin,
         ))
-        .add_systems(Startup, setup_physics)
         .add_systems(Update, (exit_on_escape, spawn_on_t))
         .run();
 }

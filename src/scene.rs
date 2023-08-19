@@ -27,39 +27,6 @@ fn setup_scene(
             shooting_timer: Timer::from_seconds(1.0, TimerMode::Repeating),
         },
     ));
-
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(Mesh::from(shape::Plane {
-            size: 5.0,
-            subdivisions: 0,
-        })),
-        material: materials.add(Color::rgb(0.0, 1.0, 0.0).into()),
-        ..default()
-    });
-
-    commands.spawn(SceneBundle {
-        scene: asset_server.load("john.glb#Scene0"),
-        transform: Transform::from_xyz(0.0, 0.0, 1.0),
-        ..default()
-    });
-
-    commands.spawn(SceneBundle {
-        scene: asset_server.load("lenin.glb#Scene0"),
-        transform: Transform::from_xyz(0.0, 0.0, -1.0),
-        ..default()
-    });
-
-    commands.spawn(SceneBundle {
-        scene: asset_server.load("david.glb#Scene0"),
-        transform: Transform::from_xyz(0.0, 0.0, -2.0),
-        ..default()
-    });
-
-    commands.spawn(SceneBundle {
-        scene: asset_server.load("donut_temp.glb#Scene0"),
-        transform: Transform::from_xyz(0.0, 5.0, 2.0),
-        ..default()
-    });
 }
 
 fn rotate_cube(mut cube_transform: Query<&mut Transform, With<Turret>>, time: Res<Time>) {

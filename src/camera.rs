@@ -38,6 +38,7 @@ fn camera_move(
         .get_single_mut()
         .expect("Only one camera with FlyCamera");
     let mut velocity = Vec3::ZERO;
+    let mut speed = 2.0;
     for key in keys.get_pressed() {
         match key {
             KeyCode::Comma => velocity += transform.forward(),
@@ -46,10 +47,11 @@ fn camera_move(
             KeyCode::A => velocity -= transform.right(),
             KeyCode::Space => velocity += Vec3::Y,
             KeyCode::ShiftLeft => velocity -= Vec3::Y,
+            KeyCode::ControlLeft => speed = speed * 10.0,
             _ => (),
         }
     }
-    transform.translation += velocity.normalize_or_zero() * time.delta_seconds() * 2.0;
+    transform.translation += velocity.normalize_or_zero() * time.delta_seconds() * speed;
 }
 
 fn camera_look(
