@@ -60,7 +60,7 @@ impl Grid {
 fn create_grid(mut commands: Commands) {
     let mut rng = rand::thread_rng();
 
-    let mut grid = Grid::new(50, 50);
+    let mut grid = Grid::new(30, 30);
     let current_cell = (0, 0);
 
     grid.grid[current_cell.0][current_cell.1].visited = true;
@@ -127,43 +127,25 @@ fn display_grid(
         RigidBody::Fixed,
         Collider::cuboid(maze_width / 2.0, wall_width / 2.0, maze_height / 2.0),
     ));
-    // Camera
-    commands.spawn(PbrBundle {
-        mesh: meshes.add(
-            shape::Capsule {
-                radius: 0.25,
-                ..default()
-            }
-            .try_into()
-            .unwrap(),
-        ),
-        material: materials.add(Color::rgb(0.2, 0.5, 0.5).into()),
-        transform: Transform::from_xyz(0.5, 0.25, 0.5),
-        ..default()
-    });
 
     // South
     commands.spawn((
         PbrBundle {
             mesh: meshes.add(Mesh::from(shape::Box::new(
-                (room_size + wall_width) * grid.width as f32 + wall_width,
+                maze_width,
                 wall_height,
                 wall_width,
             ))),
             material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
             transform: Transform::from_xyz(
-                (room_size + wall_width) * grid.width as f32 / 2.0 - wall_width / 2.0,
+                maze_width / 2.0 - wall_width,
                 wall_height / 2.0,
                 -wall_width / 2.0,
             ),
             ..default()
         },
         RigidBody::Fixed,
-        Collider::cuboid(
-            ((room_size + wall_width) * grid.width as f32 + wall_width) / 2.0,
-            wall_height / 2.0,
-            wall_width / 2.0,
-        ),
+        Collider::cuboid(maze_width / 2.0, wall_height / 2.0, wall_width / 2.0),
     ));
 
     // West
@@ -172,44 +154,37 @@ fn display_grid(
             mesh: meshes.add(Mesh::from(shape::Box::new(
                 wall_width,
                 wall_height,
-                (room_size + wall_width) * grid.height as f32 + wall_width,
+                maze_height,
             ))),
             material: materials.add(Color::rgb(1.0, 0.0, 0.0).into()),
             transform: Transform::from_xyz(
                 -wall_width / 2.0,
                 wall_height / 2.0,
-                (room_size + wall_width) * grid.height as f32 / 2.0 - wall_width / 2.0,
+                maze_height / 2.0 - wall_width,
             ),
             ..default()
         },
         RigidBody::Fixed,
-        Collider::cuboid(
-            wall_width / 2.0,
-            wall_height / 2.0,
-            ((room_size + wall_width) * grid.height as f32 + wall_width) / 2.0,
-        ),
+        Collider::cuboid(wall_width / 2.0, wall_height / 2.0, maze_height / 2.0),
     ));
 
     for (row_i, row) in grid.grid.iter().enumerate() {
-        // Room
-        // for (col_i, cell) in row.iter().enumerate() {
-        //     commands.spawn(PbrBundle {
-        //         mesh: meshes.add(Mesh::from(shape::Cube { size: room_size })),
-        //         material: materials.add(if cell.visited {
-        //             Color::rgb(1.0, 1.0, 1.0).into()
-        //         } else {
-        //             Color::rgb(0.0, 0.0, 0.0).into()
-        //         }),
-        //         transform: Transform::from_xyz(
-        //             col_i as f32 * (room_size + wall_width) + room_size / 2.0,
-        //             wall_height / 2.0,
-        //             row_i as f32 * (room_size + wall_width) + room_size / 2.0,
-        //         ),
-        //         ..default()
-        //     });
-        // }
-
         for (col_i, cell) in row.iter().enumerate() {
+            // Room
+            // commands.spawn(PbrBundle {
+            //     mesh: meshes.add(Mesh::from(shape::Cube { size: room_size })),
+            //     material: materials.add(if cell.visited {
+            //         Color::rgb(1.0, 1.0, 1.0).into()
+            //     } else {
+            //         Color::rgb(0.0, 0.0, 0.0).into()
+            //     }),
+            //     transform: Transform::from_xyz(
+            //         col_i as f32 * (room_size + wall_width) + room_size / 2.0,
+            //         wall_height / 2.0,
+            //         row_i as f32 * (room_size + wall_width) + room_size / 2.0,
+            //     ),
+            //     ..default()
+            // });
             // North
             if cell.walls[1] {
                 commands.spawn((
