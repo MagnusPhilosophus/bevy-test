@@ -1,5 +1,5 @@
 (undo-tree-save-format-version . 1)
-"842440b510d2ebd463a0f36e45f73e3120119840"
+"2e2b68814d5a24b0b8ddcf9759f083331f0c79f3"
 [nil nil nil nil (25818 43619 296439 99000) 0 nil]
 ([nil nil ((382 . 449) (t 25818 39389 749915 190000)) nil (25818 43619 296437 616000) 0 nil])
 ([nil nil ((462 . 464) (#("D" 0 1 (fontified t face font-lock-string-face)) . -462) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (#("\"" 0 1 (fontified t face font-lock-string-face)) . -463) (undo-tree-id2 . -1) (undo-tree-id3 . -1) 464 (445 . 464) (t 25818 39474 86583 6000)) nil (25818 43619 296433 949000) 0 nil])
@@ -23,5 +23,6 @@ rustflags = [\"-C\", \"link-arg=-fuse-ld=/usr/bin/mold\"]
 
 " 0 1 (fontified t) 1 32 (face (font-lock-type-face) fontified t) 32 34 (fontified t) 34 40 (face font-lock-variable-name-face fontified t) 40 43 (fontified t) 43 50 (face font-lock-string-face fontified t) 50 51 (fontified t) 51 60 (face font-lock-variable-name-face fontified t) 60 64 (fontified t) 64 68 (face font-lock-string-face fontified t) 68 70 (fontified t) 70 103 (face font-lock-string-face fontified t) 103 104 (fontified t) 104 105 (fontified t rear-nonsticky t) 105 106 (fontified t)) . 312) (undo-tree-id26 . -105) (undo-tree-id27 . -105) (undo-tree-id28 . -105) (undo-tree-id29 . -34) (undo-tree-id30 . -34) (undo-tree-id31 . -51) (undo-tree-id32 . -51) (undo-tree-id33 . -105) (undo-tree-id34 . -105) (undo-tree-id35 . -105) (undo-tree-id36 . -105) (undo-tree-id37 . -105) (undo-tree-id38 . -106) 417 (t 25825 19632 714575 133000)) nil (25825 19856 549442 639000) 0 nil])
 ([nil nil ((#("," 0 1 (fontified t)) . -510) (undo-tree-id39 . -1) (undo-tree-id40 . -1) (undo-tree-id41 . -1) (undo-tree-id42 . -1) (undo-tree-id43 . -1) (#(" " 0 1 (fontified t)) . -511) (undo-tree-id44 . -1) (undo-tree-id45 . -1) (undo-tree-id46 . -1) (undo-tree-id47 . -1) 512 (510 . 512) (t 25825 19856 587912 634000)) nil (25825 20085 328116 492000) 0 nil])
-([nil current ((493 . 505)) nil (25825 20085 328102 215000) 0 nil])
+([nil nil ((493 . 505)) nil (25825 20085 328102 215000) 0 nil])
+([nil current ((#("\"" 0 1 (face font-lock-string-face rear-nonsticky t fontified t)) . -328) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (undo-tree-id2 . -1) (undo-tree-id3 . -1) (undo-tree-id4 . -1) (undo-tree-id5 . -1) (undo-tree-id6 . -1) 329 (nil rear-nonsticky nil 328 . 329) (nil fontified nil 311 . 329) (311 . 329) (310 . 311) (t 25825 20085 354583 483000) 309) nil (25826 7343 630802 501000) 0 nil])
 nil

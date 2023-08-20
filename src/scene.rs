@@ -1,4 +1,6 @@
+#![allow(dead_code)]
 use bevy::prelude::*;
+use std::f32::consts::PI;
 
 #[derive(Component)]
 struct Turret {
@@ -10,11 +12,26 @@ struct Bullet {
     lifetime_timer: Timer,
 }
 
+fn setup_light(mut commands: Commands) {
+    commands.spawn(DirectionalLightBundle {
+        directional_light: DirectionalLight {
+            shadows_enabled: true,
+            ..default()
+        },
+        transform: Transform {
+            translation: Vec3::new(0.0, 20.0, 0.0),
+            rotation: Quat::from_rotation_x(-PI / 4.0),
+            ..default()
+        },
+        ..default()
+    });
+}
+
 fn setup_scene(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
-    asset_server: Res<AssetServer>,
+    //asset_server: Res<AssetServer>,
 ) {
     commands.spawn((
         PbrBundle {
@@ -75,7 +92,7 @@ pub struct ScenePlugin;
 
 impl Plugin for ScenePlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, setup_scene)
-            .add_systems(Update, (rotate_cube, tower_shooting, bullets_dispawn));
+        app.add_systems(Startup, setup_light);
+        //.add_systems(Update, (rotate_cube, tower_shooting, bullets_dispawn));
     }
 }

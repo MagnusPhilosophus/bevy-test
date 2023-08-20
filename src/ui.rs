@@ -3,8 +3,19 @@ use bevy::{
     prelude::*,
 };
 
+use std::time::Instant;
+
 #[derive(Component)]
 struct TextChanges;
+
+#[derive(Component)]
+struct MazeTimerText;
+
+#[derive(Resource)]
+pub struct MazeTimer {
+    pub player_started: bool,
+    pub start_time: Option<Instant>,
+}
 
 fn info_text(mut commands: Commands, asset_server: Res<AssetServer>) {
     let font = asset_server.load("fonts/FiraCode-Bold.ttf");
@@ -45,6 +56,47 @@ fn info_text(mut commands: Commands, asset_server: Res<AssetServer>) {
         }),
         TextChanges,
     ));
+
+    commands.spawn((
+        TextBundle::from_sections([
+            TextSection::new(
+                "There should be a ",
+                TextStyle {
+                    font: font.clone(),
+                    font_size: 30.0,
+                    color: Color::WHITE,
+                },
+            ),
+            TextSection::new(
+                "timer",
+                TextStyle {
+                    font: font.clone(),
+                    font_size: 30.0,
+                    color: Color::WHITE,
+                },
+            ),
+        ])
+        .with_style(Style {
+            position_type: PositionType::Absolute,
+            top: Val::Px(5.0),
+            right: Val::Px(15.0),
+            ..default()
+        }),
+        MazeTimerText,
+    ));
+
+    commands.insert_resource(MazeTimer {
+        player_started: false,
+        start_time: None,
+    });
+}
+
+fn maze_timer_update(maze_timer: Res<MazeTimer>, mut text: Query<&mut Text, With<MazeTimerText>>) {
+    if maze_timer.player_started {
+        let mut text = text.single_mut();
+        let elapsed = Instant::now().duration_since(maze_timer.start_time.unwrap());
+        text.sections[1].value = format!("{:.2}", elapsed.as_secs_f32());
+    }
 }
 
 fn change_text(
@@ -79,6 +131,6 @@ pub struct UIPlugin;
 impl Plugin for UIPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, info_text)
-            .add_systems(Update, change_text);
+            .add_systems(Update, (change_text, maze_timer_update));
     }
 }

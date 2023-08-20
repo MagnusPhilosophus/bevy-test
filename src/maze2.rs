@@ -60,7 +60,7 @@ impl Grid {
 fn create_grid(mut commands: Commands) {
     let mut rng = rand::thread_rng();
 
-    let mut grid = Grid::new(30, 30);
+    let mut grid = Grid::new(10, 10);
     let current_cell = (0, 0);
 
     grid.grid[current_cell.0][current_cell.1].visited = true;
@@ -100,7 +100,7 @@ fn display_grid(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     let grid = grid.single();
-    let room_size = 1.0;
+    let room_size = 2.0;
     let wall_width = 0.1;
     let wall_height = 1.5;
     let wall_depth = room_size + wall_width * 2.0;
@@ -166,6 +166,17 @@ fn display_grid(
         },
         RigidBody::Fixed,
         Collider::cuboid(wall_width / 2.0, wall_height / 2.0, maze_height / 2.0),
+    ));
+
+    // Finish room sensor collider
+    commands.spawn((
+        Sensor,
+        TransformBundle::from(Transform::from_xyz(
+            (grid.width - 1) as f32 * (room_size + wall_width) + room_size / 2.0,
+            wall_height / 2.0,
+            (grid.height - 1) as f32 * (room_size + wall_width) + room_size / 2.0,
+        )),
+        Collider::cuboid(room_size / 2.0, wall_height / 2.0, room_size / 2.0),
     ));
 
     for (row_i, row) in grid.grid.iter().enumerate() {
