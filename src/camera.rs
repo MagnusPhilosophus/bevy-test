@@ -46,72 +46,46 @@ fn camera_move(
     let (mut cam_t, settings) = cam_query.single_mut();
     let mut velocity = Vec3::ZERO;
     let mut speed_multiplier = 1.0;
-    for key in keys.get_pressed() {
-        match key {
-            KeyCode::Comma => {
-                velocity += Vec3::new(cam_t.forward().x, 0.0, cam_t.forward().z).normalize_or_zero()
-            }
-            KeyCode::O => {
-                velocity += Vec3::new(cam_t.back().x, 0.0, cam_t.back().z).normalize_or_zero()
-            }
-
-            KeyCode::E => velocity += cam_t.right(),
-            KeyCode::A => velocity += cam_t.left(),
-            KeyCode::Space => velocity += Vec3::Y,
-            KeyCode::ShiftLeft => velocity -= Vec3::Y,
-            KeyCode::ControlLeft => speed_multiplier = 10.0,
-            _ => (),
-        }
-    }
+    let forward = Vec3::new(cam_t.forward().x, 0.0, cam_t.forward().z).normalize_or_zero();
     if settings.camera_type == CameraType::Fly {
+        for key in keys.get_pressed() {
+            match key {
+                KeyCode::Comma => velocity += forward,
+                KeyCode::O => velocity -= forward,
+                KeyCode::E => velocity += cam_t.right(),
+                KeyCode::A => velocity += cam_t.left(),
+                KeyCode::Space => velocity += Vec3::Y,
+                KeyCode::ShiftLeft => velocity -= Vec3::Y,
+                KeyCode::ControlLeft => speed_multiplier = 10.0,
+                _ => (),
+            }
+        }
         cam_t.translation +=
             velocity.normalize_or_zero() * time.delta_seconds() * settings.speed * speed_multiplier;
     } else {
+        for key in keys.get_pressed() {
+            match key {
+                KeyCode::Comma => velocity += forward,
+                KeyCode::O => velocity -= forward,
+                KeyCode::E => velocity += cam_t.right(),
+                KeyCode::A => velocity += cam_t.left(),
+                KeyCode::Space => velocity += Vec3::Y,
+                KeyCode::ShiftLeft => velocity -= Vec3::Y,
+                KeyCode::ControlLeft => speed_multiplier = 10.0,
+                _ => (),
+            }
+        }
         if !maze_timer.player_started {
             maze_timer.player_started = true;
             maze_timer.start_time = Some(Instant::now())
         }
         let (player_t, mut controller) = player_query.single_mut();
-        cam_t.translation = player_t.translation + Vec3::new(0.0, 0.25, 0.0);
         controller.translation = Some(
             velocity.normalize_or_zero() * time.delta_seconds() * settings.speed * speed_multiplier,
         );
+        cam_t.translation = player_t.translation + Vec3::new(0.0, 0.25, 0.0);
     }
 }
-
-// fn update_player(
-//     mut query: Query<(&Transform, &mut KinematicCharacterController)>,
-//     mut maze_timer: ResMut<MazeTimer>,
-//     keys: Res<Input<KeyCode>>,
-//     time: Res<Time>,
-// ) {
-//     if keys.any_pressed([KeyCode::Up, KeyCode::Down, KeyCode::Left, KeyCode::Right])
-//         && !maze_timer.player_started
-//     {
-//         maze_timer.player_started = true;
-//         maze_timer.start_time = Some(Instant::now())
-//     }
-//     let (transform, mut controller) = query.single_mut();
-//     let mut velocity = Vec3::ZERO;
-//     for key in keys.get_pressed() {
-//         match key {
-//             KeyCode::Up => velocity += transform.forward(),
-//             KeyCode::Down => velocity += transform.back(),
-//             KeyCode::Left => velocity += transform.left(),
-//             KeyCode::Right => velocity += transform.right(),
-//             _ => (),
-//         }
-//     }
-//     controller.translation = Some(velocity.normalize_or_zero() * time.delta_seconds());
-// }
-// fn update_player_camera(
-//     mut camera: Query<&mut Transform, With<PlayerCamera>>,
-//     player: Query<&Transform, (With<KinematicCharacterController>, Without<PlayerCamera>)>,
-// ) {
-//     let mut camera = camera.single_mut();
-//     let player = player.single();
-//     camera.translation = player.translation + Vec3::new(0.0, 0.25, 0.0);
-// }
 
 fn camera_look(
     mut query: Query<(&mut Transform, &CameraSettings)>,
@@ -135,33 +109,11 @@ fn camera_look(
     }
 }
 
-fn toggle_grab_cursor(window: &mut Window) {
-    if window.cursor.grab_mode == CursorGrabMode::None {
-        window.cursor.grab_mode = CursorGrabMode::Locked;
-        window.cursor.visible = false;
-    } else {
-        window.cursor.grab_mode = CursorGrabMode::None;
-        window.cursor.visible = true;
-    }
-}
-
-fn grab_cursor(mut window: Query<&mut Window, With<PrimaryWindow>>, keys: Res<Input<KeyCode>>) {
-    let mut window = window.get_single_mut().expect("Failed to find window");
-    if keys.just_pressed(KeyCode::Tab) {
-        toggle_grab_cursor(&mut window);
-    }
-}
-
-fn initial_grab_cursor(mut window: Query<&mut Window, With<PrimaryWindow>>) {
-    let mut window = window.get_single_mut().expect("Failed to find window");
-    toggle_grab_cursor(&mut window);
-}
-
 pub struct FlyCameraPlugin;
 
 impl Plugin for FlyCameraPlugin {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, (setup_camera, initial_grab_cursor))
-            .add_systems(Update, (camera_move, camera_look, grab_cursor));
+        app.add_systems(Startup, setup_camera)
+            .add_systems(Update, (camera_move, camera_look));
     }
 }

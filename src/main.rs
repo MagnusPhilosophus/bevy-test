@@ -1,23 +1,16 @@
-use bevy::app::AppExit;
-use bevy::diagnostic::FrameTimeDiagnosticsPlugin;
 use bevy::prelude::*;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_rapier3d::prelude::*;
 mod camera;
 use camera::CameraSettings;
 use camera::FlyCameraPlugin;
-mod maze2;
-use maze2::MazePlugin;
+mod maze;
+use maze::MazePlugin;
 mod scene;
 use scene::ScenePlugin;
 mod ui;
 use ui::UIPlugin;
-
-fn exit_on_escape(mut exit: EventWriter<AppExit>, keys: Res<Input<KeyCode>>) {
-    if keys.just_pressed(KeyCode::Escape) {
-        exit.send(AppExit);
-    }
-}
+mod utils;
+use utils::UtilsPlugin;
 
 fn spawn_on_e(
     mut commands: Commands,
@@ -109,46 +102,19 @@ fn setup_player(
     ));
 }
 
-// fn update_player(
-//     mut query: Query<(&Transform, &mut KinematicCharacterController)>,
-//     mut maze_timer: ResMut<MazeTimer>,
-//     keys: Res<Input<KeyCode>>,
-//     time: Res<Time>,
-// ) {
-//     if keys.any_pressed([KeyCode::Up, KeyCode::Down, KeyCode::Left, KeyCode::Right])
-//         && !maze_timer.player_started
-//     {
-//         maze_timer.player_started = true;
-//         maze_timer.start_time = Some(Instant::now())
-//     }
-//     let (transform, mut controller) = query.single_mut();
-//     let mut velocity = Vec3::ZERO;
-//     for key in keys.get_pressed() {
-//         match key {
-//             KeyCode::Up => velocity += transform.forward(),
-//             KeyCode::Down => velocity += transform.back(),
-//             KeyCode::Left => velocity += transform.left(),
-//             KeyCode::Right => velocity += transform.right(),
-//             _ => (),
-//         }
-//     }
-//     controller.translation = Some(velocity.normalize_or_zero() * time.delta_seconds());
-// }
-
 fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            WorldInspectorPlugin::new(),
             FlyCameraPlugin,
             MazePlugin,
             RapierPhysicsPlugin::<NoUserData>::default(),
             //RapierDebugRenderPlugin::default(),
-            FrameTimeDiagnosticsPlugin,
             UIPlugin,
             ScenePlugin,
+            UtilsPlugin,
         ))
         .add_systems(Startup, setup_player)
-        .add_systems(Update, (exit_on_escape, spawn_on_q, spawn_on_e))
+        .add_systems(Update, (spawn_on_q, spawn_on_e))
         .run();
 }
