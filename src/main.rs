@@ -102,6 +102,25 @@ fn setup_player(
     ));
 }
 
+#[cfg(debug_assertions)]
+fn main() {
+    App::new()
+        .add_plugins((
+            DefaultPlugins,
+            FlyCameraPlugin,
+            MazePlugin,
+            RapierPhysicsPlugin::<NoUserData>::default(),
+            RapierDebugRenderPlugin::default(),
+            UIPlugin,
+            ScenePlugin,
+            UtilsPlugin,
+        ))
+        .add_systems(Startup, setup_player)
+        .add_systems(Update, (spawn_on_q, spawn_on_e))
+        .run();
+}
+
+#[cfg(not(debug_assertions))]
 fn main() {
     App::new()
         .add_plugins((
