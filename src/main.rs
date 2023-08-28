@@ -35,6 +35,7 @@ fn spawn_on_e(
                 linvel: position.forward() * 10.0,
                 ..default()
             },
+            ActiveEvents::COLLISION_EVENTS,
         ));
     }
 }
@@ -69,6 +70,7 @@ fn spawn_on_q(
                 linvel: position.forward() * 10.0,
                 ..default()
             },
+            ActiveEvents::COLLISION_EVENTS,
         ));
     }
 }
@@ -98,8 +100,34 @@ fn setup_player(
         },
         RigidBody::KinematicPositionBased,
         Collider::capsule(Vec3::new(0.0, -0.25, 0.0), Vec3::new(0.0, 0.25, 0.0), 0.25),
-        KinematicCharacterController::default(),
+        KinematicCharacterController {
+            apply_impulse_to_dynamic_bodies: true,
+            //filter_flags: bevy_rapier3d::pipeline::QueryFilterFlags::EXCLUDE_SENSORS,
+            ..default()
+        },
+        Name::new("Player"),
     ));
+}
+
+fn collisions_printer(mut outputs: Query<&mut KinematicCharacterControllerOutput>) {
+    for output in outputs.iter_mut() {
+        for collision in &output.collisions {
+            println!("Player collided with {:?}", collision.entity);
+        }
+    }
+}
+
+fn display_events(
+    mut collision_events: EventReader<CollisionEvent>,
+    mut contact_force_events: EventReader<ContactForceEvent>,
+) {
+    for collision_event in collision_events.iter() {
+        println!("Received collision event: {:?}", collision_event);
+    }
+
+    for contact_force_event in contact_force_events.iter() {
+        println!("Received contact force event: {:?}", contact_force_event);
+    }
 }
 
 #[cfg(debug_assertions)]
@@ -116,7 +144,10 @@ fn main() {
             UtilsPlugin,
         ))
         .add_systems(Startup, setup_player)
-        .add_systems(Update, (spawn_on_q, spawn_on_e))
+        .add_systems(
+            Update,
+            (spawn_on_q, spawn_on_e, collisions_printer, display_events),
+        )
         .run();
 }
 

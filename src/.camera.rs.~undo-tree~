@@ -710,5 +710,7 @@ fn initial_grab_cursor(mut window: Query<&mut Window, With<PrimaryWindow>>) {
 ([nil nil ((#(")" 0 1 (fontified t)) . 4012) (undo-tree-id815 . -1)) nil (25827 49173 331422 858000) 0 nil])
 ([nil nil ((#("grab_cursor" 0 11 (fontified t)) . 4074) (undo-tree-id813 . -10) (undo-tree-id814 . -11)) nil (25827 49173 331420 65000) 0 nil])
 ([nil nil ((#("," 0 1 (fontified t)) . 4072) (undo-tree-id811 . -1) (undo-tree-id812 . -1)) nil (25827 49173 331417 131000) 0 nil])
-([nil current ((#(" " 0 1 (fontified t)) . 4072) (undo-tree-id805 . -1) (undo-tree-id806 . -1) (undo-tree-id807 . -1) (undo-tree-id808 . -1) (undo-tree-id809 . -1) (undo-tree-id810 . -1)) nil (25827 49173 331411 823000) 0 nil])
+([nil nil ((#(" " 0 1 (fontified t)) . 4072) (undo-tree-id805 . -1) (undo-tree-id806 . -1) (undo-tree-id807 . -1) (undo-tree-id808 . -1) (undo-tree-id809 . -1) (undo-tree-id810 . -1)) nil (25827 49173 331411 823000) 0 nil])
+([nil nil ((684 . 687) (#("Player" 0 6 (face font-lock-type-face fontified t)) . 684) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (undo-tree-id2 . -1) (undo-tree-id3 . -1) (undo-tree-id4 . -1) (undo-tree-id5 . -1) (undo-tree-id6 . -1) (undo-tree-id7 . -1) (undo-tree-id8 . -6) (undo-tree-id9 . -6) (undo-tree-id10 . -5) (t 25827 49173 338291 469000)) nil (25835 40719 325416 49000) 0 nil])
+([nil current ((684 . 690) (#("Fly" 0 3 (face font-lock-type-face fontified t)) . 684) (undo-tree-id11 . -2) (undo-tree-id12 . -2) (undo-tree-id13 . -2) (undo-tree-id14 . -2) (undo-tree-id15 . -2) (undo-tree-id16 . -2) (undo-tree-id17 . -3) (undo-tree-id18 . -3) (t 25835 40719 331278 442000)) nil (25835 40817 432495 203000) 0 nil])
 nil
