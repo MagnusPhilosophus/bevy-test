@@ -26,7 +26,7 @@ fn setup_camera(mut commands: Commands) {
             ..default()
         },
         CameraSettings {
-            camera_type: CameraType::Player,
+            camera_type: CameraType::Fly,
             speed: 2.0,
             sensitivity: 0.0001,
         },
