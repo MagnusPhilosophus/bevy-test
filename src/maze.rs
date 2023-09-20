@@ -60,7 +60,7 @@ impl Grid {
 fn create_grid(mut commands: Commands) {
     let mut rng = rand::thread_rng();
 
-    let mut grid = Grid::new(10, 10);
+    let mut grid = Grid::new(2, 2);
     let current_cell = (0, 0);
 
     grid.grid[current_cell.0][current_cell.1].visited = true;
@@ -177,6 +177,8 @@ fn display_grid(
             (grid.height - 1) as f32 * (room_size + wall_width) + room_size / 2.0,
         )),
         Collider::cuboid(room_size / 2.0, wall_height / 2.0, room_size / 2.0),
+        Name::new("Sensor"),
+        ActiveEvents::COLLISION_EVENTS,
     ));
 
     for (row_i, row) in grid.grid.iter().enumerate() {
