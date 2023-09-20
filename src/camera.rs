@@ -33,6 +33,17 @@ fn setup_camera(mut commands: Commands) {
     ));
 }
 
+fn switch_camera_type(mut settings: Query<&mut CameraSettings>, keys: Res<Input<KeyCode>>) {
+    if keys.just_pressed(KeyCode::P) {
+        let mut settings = settings.get_single_mut().unwrap();
+        if settings.camera_type == CameraType::Fly {
+            settings.camera_type = CameraType::Player;
+            return;
+        }
+        settings.camera_type = CameraType::Fly;
+    }
+}
+
 fn camera_move(
     mut cam_query: Query<(&mut Transform, &CameraSettings)>,
     mut player_query: Query<
@@ -114,6 +125,6 @@ pub struct FlyCameraPlugin;
 impl Plugin for FlyCameraPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, setup_camera)
-            .add_systems(Update, (camera_move, camera_look));
+            .add_systems(Update, (camera_move, camera_look, switch_camera_type));
     }
 }
